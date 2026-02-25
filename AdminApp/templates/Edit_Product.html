@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% extends 'dashboard.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Add products</h4>
+
+                    <form class="forms-sample" enctype="multipart/form-data" action="{% url 'update_product' pro.id %}" method="post">
+                         {% csrf_token %}
+                      <div class="form-group">
+                        <label for="exampleInputName1">Products Name</label>
+                        <input type="text" class="form-control" name="name" id="exampleInputName1" value="{{pro.Product_Name}}" placeholder="Name">
+                      </div>
+                      <div class="form-group">
+                        <label>Product Category</label>
+                        <input type="text" class="form-control"  value="{{pro.Product_Category}}" name="category" placeholder="Catagory">
+                      </div>
+                        <div class="form-group">
+                        <label>Prize</label>
+                        <input type="text" class="form-control" name="prize" value="{{pro.Prize}}" placeholder="Prize">
+                      </div>
+<!--                      <div class="form-group">-->
+<!--                        <label for="exampleInputPassword4">Password</label>-->
+<!--                        <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">-->
+<!--                      </div>-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="exampleSelectGender">Gender</label>-->
+<!--                        <select class="form-control" id="exampleSelectGender">-->
+<!--                          <option>Male</option>-->
+<!--                          <option>Female</option>-->
+<!--                        </select>-->
+<!--                      </div>-->
+<!--                      <div class="form-group">-->
+<!--                        <label>Upload Image</label>-->
+<!--                        <input type="file" name="img[]" class="file-upload-default">-->
+<!--                        <div class="input-group col-xs-12">-->
+<!--                          <input type="text" class="form-control file-upload-info" name="img" disabled="" placeholder="Upload Image">-->
+<!--                          <span class="input-group-append">-->
+<!--                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>-->
+<!--                          </span>-->
+<!--                        </div>-->
+<!--                      </div>-->
+                        <div class="form-group">
+              <label for="category_image">Category Image</label>
+              <input
+                type="file"
+                class="form-control"
+                id="category_image"
+                name="img"
+                accept="image/*"
+                required
+                src="{{pro.Product_Image}}"
+              >
+            </div>
+<!--                      <div class="form-group">-->
+<!--                        <label for="exampleInputCity1">City</label>-->
+<!--                        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">-->
+<!--                      </div>-->
+                      <div class="form-group">
+                        <label for="exampleTextarea1">Discriptions</label>
+                        <textarea class="form-control" name="desc" id="exampleTextarea1" rows="4">{{pro.Description}}</textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button class="btn btn-dark">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+</body>
+</html>
+{% endblock %}
