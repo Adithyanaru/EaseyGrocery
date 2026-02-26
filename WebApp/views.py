@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from AdminApp.models import *
-from WebApp.models import ContactDb, AccountDb
+from WebApp.models import ContactDb, AccountDb, CartDb
 
 
 # Create your views here.
@@ -76,7 +76,38 @@ def user_logout(request):
     return redirect(home)
 
 def shoping_cart(request):
-    return render(request,'Shoping_Cart.html')
+    cart=CartDb.objects.filter(Username=request.session['Username'])
+    sub_total=0
+    delivery=0
+    grand_total=0
+    user_date=CartDb.objects.filter(Username=request.session['Username'])
+    for i in user_date:
+        sub_total += i.Total_Price
+        if sub_total > 1000:
+            delivery = 0
+        elif sub_total > 500:
+            delivery = 50
+        else:
+            delivery=100
+        grand_total=sub_total + delivery
+
+    return render(request,'Shoping_Cart.html',{'cart':cart,
+                                               'sub_total':sub_total,
+                                              'delivery':delivery,
+                                              'grand_total':grand_total })
 def service(request):
     return render(request,'Service.html')
+def save_cart(request):
+    if request.method == 'POST':
+        uname=request.POST.get('username')
+        proname=request.POST.get('productname')
+        quantity=request.POST.get('quantity')
+        price=request.POST.get('price')
+        tprice=request.POST.get('totalprice')
+        pro=ProductDb.objects.filter(Product_Name=proname).first()
+        img = pro.Product_Image if pro else None
+        obj=CartDb(Username=uname,ProductName=proname,Quantity=quantity,Price=price,Total_Price=tprice,Product_Image=img)
+        obj.save()
+        return redirect(home)
+
 

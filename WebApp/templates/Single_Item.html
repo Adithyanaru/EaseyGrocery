@@ -279,12 +279,16 @@
                         <p>{{single_product.Description}}</p>
                         {% if request.session.Username %}
                             <div>
-                           <form>
-                               <input type="number" min="1" class="form-control mb-3" id="quantity">
-                               <input type="text" value="{{single_product.Prize}}" class="form-control mb-3" id="price">
-                               <input placeholder="Total Prize" class="form-control mb-3" id="total" >
+                           <form method="post" action="{% url 'save_cart'%}" enctype="multipart/form-data">
+                               {% csrf_token %}
+                               <input type="number" min="1" class="form-control mb-3" id="quantity" name="quantity">
+                               <input type="hidden" value="{{single_product.Prize}}" class="form-control mb-3" id="price" name="price">
+                               <input placeholder="Total Prize" class="form-control mb-3" id="total" name="totalprice" >
+                               <input type="hidden" value="{{single_product.Product_Name}}" class="form-control mb-3"  name="productname">
+                               <input type="hidden" value="{{request.session.Username}}" class="form-control mb-3" name="username" >
+<button type="submit" class="primary-btn">ADD TO CARD</button>
                            </form>
-                           <a href="#" class="primary-btn">ADD TO CARD</a>
+
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                        </div>
                         {% else %}

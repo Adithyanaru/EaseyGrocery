@@ -14,3 +14,12 @@ class AccountDb(models.Model):
 
     def __str__(self):
         return self.Email
+class  CartDb(models.Model):
+    # Username=models.CharField(max_length=100,blank=True,null=True)
+    Username = models.CharField(max_length=100, default="")
+    ProductName=models.CharField(max_length=100,blank=True,null=True)
+    Quantity=models.IntegerField(blank=True,null=True)
+    Price=models.IntegerField(blank=True,null=True)
+    Total_Price=models.IntegerField(blank=True,null=True)
+    Product_Image=models.ImageField(upload_to='Cart_img',blank=True,null=True)
+
