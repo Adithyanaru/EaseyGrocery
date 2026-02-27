@@ -13,7 +13,8 @@ from AdminApp.models import CategoryDb,ProductDb
 
 # Create your views here.
 def dashboard(request):
-    return render(request,'dashboard.html')
+    categories=CategoryDb.objects.count()
+    return render(request,'dashboard.html',{'categories':categories})
 def add_products(request):
     category = CategoryDb.objects.all()
     return render(request,'Add_Products.html', {'Category': category})

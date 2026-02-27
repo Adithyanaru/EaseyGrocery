@@ -17,4 +17,7 @@ urlpatterns=[
     path("user_logout/",views.user_logout,name="user_logout"),
     path("service/",views.service,name="service"),
     path("save_cart/",views.save_cart,name="save_cart"),
+    path("check_out/",views.check_out,name="check_out"),
+    path("delete_cart/<int:it_id>",views.delete_cart,name="delete_cart"),
+
 ]

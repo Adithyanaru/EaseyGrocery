@@ -6,9 +6,14 @@ from WebApp.models import ContactDb, AccountDb, CartDb
 # Create your views here.
 def home(request):
     categories=CategoryDb.objects.all()
+    uname= request.session.get('Username')
+    cart=0
+    if uname:
+        cart = CartDb.objects.filter(Username=uname).count()
     latest_products=ProductDb.objects.order_by('-id')[:8]
     return render(request,"Home.html",{'categories':categories,
-                                       "latest_products":latest_products})
+                                       "latest_products":latest_products,
+                                       'cart':cart})
 def all_products(request):
     categories=CategoryDb.objects.all()
     products=ProductDb.objects.all()
@@ -26,8 +31,9 @@ def single_item(request,product_id):
     return render(request,"Single_item.html",{'single_product':single_product})
 
 def contact(request):
+    categories = CategoryDb.objects.all()
     details=ContactDb.objects.all()
-    return render(request,"Contact.html",{'details':details})
+    return render(request,"Contact.html",{'details':details,'categories':categories})
 def save_contact(request):
     if request.method=='POST':
         con_name= request.POST.get('name')
@@ -109,5 +115,11 @@ def save_cart(request):
         obj=CartDb(Username=uname,ProductName=proname,Quantity=quantity,Price=price,Total_Price=tprice,Product_Image=img)
         obj.save()
         return redirect(home)
+def check_out(request):
+    return render(request,'Check_Out.html')
+def delete_cart(request,it_id):
+    item=CartDb.objects.filter(id=it_id)
+    item.delete()
+    return redirect(shoping_cart)
 
 
