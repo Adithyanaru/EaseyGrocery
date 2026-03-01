@@ -22,4 +22,12 @@ class  CartDb(models.Model):
     Price=models.IntegerField(blank=True,null=True)
     Total_Price=models.IntegerField(blank=True,null=True)
     Product_Image=models.ImageField(upload_to='Cart_img',blank=True,null=True)
+class OrderDb(models.Model):
+    Username=models.CharField(max_length=100,blank=True,null=True)
+    Email=models.CharField(max_length=100,blank=True,null=True)
+    Place=models.CharField(max_length=100,blank=True,null=True)
+    Address=models.CharField(max_length=100,blank=True,null=True)
+    Pin=models.CharField(max_length=100,blank=True,null=True)
+    Phone_Number=models.CharField(max_length=100,blank=True,null=True)
+    Grand_Total=models.IntegerField(blank=True,null=True)
 
