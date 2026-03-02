@@ -66,7 +66,7 @@
                     <ul class="header__menu__dropdown">
                         <li><a href="./shop-details.html">Shop Details</a></li>
                         <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                        <li><a href="./checkout.html">Check Out</a></li>
+                        <li><a href="{% url 'check_out' %}">Check Out</a></li>
                         <li><a href="./blog-details.html">Blog Details</a></li>
                     </ul>
                 </li>
@@ -318,7 +318,7 @@
                             <li>Delivery <span>Rs.{{ delivery }}</span></li>
                             <li>GrandTotal <span>Rs.{{ grand_total }}</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="{% url 'check_out' %}" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>

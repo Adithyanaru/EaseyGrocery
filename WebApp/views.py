@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from AdminApp.models import *
-from WebApp.models import ContactDb, AccountDb, CartDb
+from WebApp.models import ContactDb, AccountDb, CartDb, OrderDb
 
 
 # Create your views here.
@@ -116,10 +116,47 @@ def save_cart(request):
         obj.save()
         return redirect(home)
 def check_out(request):
-    return render(request,'Check_Out.html')
+
+    user_data = CartDb.objects.filter(Username=request.session.get('Username'))
+
+    sub_total = 0
+    for i in user_data:
+        sub_total += i.Total_Price
+
+    # delivery charge
+    if sub_total > 1000:
+        delivery = 0
+    elif sub_total > 500:
+        delivery = 50
+    else:
+        delivery = 100
+
+    grand_total = sub_total + delivery
+
+    return render(request,'Check_Out.html',{
+        'user_data': user_data,
+        'sub_total': sub_total,
+        'delivery': delivery,
+        'grand_total': grand_total
+    })
 def delete_cart(request,it_id):
     item=CartDb.objects.filter(id=it_id)
     item.delete()
     return redirect(shoping_cart)
+
+def save_checkout(request):
+    if request.method =='POST':
+        username=request.POST.get('username')
+        address=request.POST.get('address')
+        place=request.POST.get('place')
+        pincode=request.POST.get('pin')
+        phone=request.POST.get('phone')
+        email=request.POST.get('email')
+        grandtotal=request.POST.get('grandtotal')
+        obj=OrderDb(Username=username,Address=address,Place=place,Pin=pincode,Phone_Number=phone,Email=email,Grand_Total=grandtotal)
+        obj.save()
+        return redirect(check_out)
+        
+
 
 
