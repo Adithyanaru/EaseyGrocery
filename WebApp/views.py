@@ -22,8 +22,10 @@ def all_products(request):
                                                'products':products,
                                                "latest_products":latest_products })
 def filtered_product(request,cat_name):
+    categories = CategoryDb.objects.all()
     product_filtered=ProductDb.objects.filter(Product_Category=cat_name)
-    return render(request,'Filtered_Product.html',{'product_filtered':product_filtered})
+    return render(request,'Filtered_Product.html',{'product_filtered':product_filtered ,
+                                                   'categories':categories})
 
 
 def single_item(request,product_id):
@@ -155,8 +157,9 @@ def save_checkout(request):
         grandtotal=request.POST.get('grandtotal')
         obj=OrderDb(Username=username,Address=address,Place=place,Pin=pincode,Phone_Number=phone,Email=email,Grand_Total=grandtotal)
         obj.save()
-        return redirect(check_out)
+        return redirect(payment)
         
-
+def payment(request):
+    return render(request,'Payment.html')
 
 

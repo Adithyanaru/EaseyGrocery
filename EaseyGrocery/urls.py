@@ -24,7 +24,7 @@ import WebApp.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('store/',include(AdminApp.urls)),
+    path('',include(AdminApp.urls)),
     path('EaseyGrocery/',include(WebApp.urls))
 ]
 if settings.DEBUG:
