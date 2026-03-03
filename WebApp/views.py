@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from AdminApp.models import *
 from WebApp.models import ContactDb, AccountDb, CartDb, OrderDb
-
+import razorpay
 
 # Create your views here.
 def home(request):
@@ -160,6 +160,20 @@ def save_checkout(request):
         return redirect(payment)
         
 def payment(request):
-    return render(request,'Payment.html')
+    categories=CategoryDb.objects.all()
+    cart_total=0
+    uname=request.session.get('Username')
+    if uname:
+        cart_total=CartDb.objects.filter(Username=uname).count()
+        customer=OrderDb.objects.order_by('-id').first()
+        pay=customer.Grand_Total
+        amount=int(pay*100)
+        paystr=str(amount)
+        
+        if request.method =='POST':
+            order_currency="INR"
+            client=razorpay.Client(auth=("rzp_test_0ib0jPwwZ7I1lT","VjHNO5zKeKxz8PYe7VnzwxMR"))
+            payment=client.order.create({'amount':amount,'currency':order_currency,})    
+    return render(request,'Payment.html',{'categories':categories,'cart_total':cart_total,'paystr':paystr})
 
 
